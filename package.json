@@ -8,7 +8,7 @@
     "preview": true,
     "repository": {
         "type": "git",
-        "url": "https://github.com/tanneraphid34/vscode-javadoc-generator"
+        "url": "https://github.com/madhavd1/vscode-javadoc-tools"
     },
     "engines": {
         "vscode": "^1.33.0"
