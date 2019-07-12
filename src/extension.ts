@@ -164,7 +164,7 @@ export function activate(context: vscode.ExtensionContext) {
 				// methodDefnText = methodText.substring(0, methodText.indexOf("{")).trim();//Complete method definition. May contain existing javadoc
 				let tagArray = new Map<string, string>();
 				let javadocString: string = ""; //The final Javadoc string that will be inserted
-				let targetPosition: vscode.Position = methodObj.range.start.with(methodObj.range.start.line + jdOffset, methodObj.range.start.character);
+				let targetPosition: vscode.Position = methodObj.selectionRange.start.with(methodObj.selectionRange.start.line + jdOffset, methodObj.range.start.character);
 
 				//Start Processing params
 				let paramStartIndex = methodDefnText.indexOf("(");
