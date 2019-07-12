@@ -212,7 +212,7 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 			}
 		});
-		vscode.window.showInformationMessage('Hello WorldForkers!');
+		// vscode.window.showInformationMessage('Hello WorldForkers!');
 	});
 
 	context.subscriptions.push(disposable);
