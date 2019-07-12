@@ -1,0 +1,47 @@
+{
+    "name": "javadoc-tools",
+    "displayName": "Javadoc Tools",
+    "description": "Javadoc Tools for VsCode",
+    "author": "Madhav Dhingra",
+    "publisher": "tanneraphid34",
+    "version": "1.0.0",
+    "preview": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tanneraphid34/vscode-javadoc-generator"
+    },
+    "engines": {
+        "vscode": "^1.33.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "activationEvents": [
+        "onCommand:extension.jdocGenerate"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [{
+            "command": "extension.jdocGenerate",
+            "title": "Generate JavaDoc Comments",
+            "when": "editorLangId == Java"
+        }]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^3.3.1",
+        "vscode": "^1.1.28",
+        "tslint": "^5.12.1",
+        "@types/node": "^10.12.21",
+        "@types/mocha": "^2.2.42"
+    },
+    "extensionDependencies": [
+        "redhat.java"
+    ]
+}
