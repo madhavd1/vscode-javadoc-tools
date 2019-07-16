@@ -19,15 +19,24 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.jdocGenerate"
+        "onCommand:javadoc-tools.jdocGenerate",
+        "onCommand:javadoc-tools.generateCommentsForWorkspace",
+        "onLanguage:java",
+        "workspaceContains:**/*.java"
     ],
     "main": "./out/extension.js",
     "contributes": {
         "commands": [{
-            "command": "extension.jdocGenerate",
-            "title": "Generate JavaDoc Comments",
-            "when": "editorLangId == Java"
-        }]
+                "command": "javadoc-tools.jdocGenerate",
+                "title": "Generate Javadoc Comments for Open File",
+                "when": "editorLangId == Java"
+            },
+            {
+                "command": "javadoc-tools.generateCommentsForWorkspace",
+                "title": "Generate Javadoc Comments for Workspace",
+                "when": "editorLangId == java"
+            }
+        ]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",

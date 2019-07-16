@@ -6,6 +6,7 @@ const JAVADOC_RETURN = '@return ';
 const JAVADOC_END = '\n */';
 const ASTERISK = '\n * ';
 const NEW_LINE = '\n';
+const LOG_DELIMITER = '------------------------------------------------------------------------------------------';
 
 export class JdocTools {
     // static activeEditor : vscode.TextEditor | undefined = vscode.window.activeTextEditor;
@@ -14,22 +15,56 @@ export class JdocTools {
     constructor() { }
     static async createJdocCommentsCurrFile(activeEditor: vscode.TextEditor | undefined) {
         if (activeEditor) {
+            console.log("Processing File: " + activeEditor.document.fileName);
+            console.log(LOG_DELIMITER);
             let symbols: Array<vscode.DocumentSymbol> | undefined = await this.getDocumentSymbols(activeEditor);
             let methods = this.getMethods(symbols);
             if (!methods) {
                 return;
             }
             else {
-                this.processMethods(methods.map((element) => {
+                await this.processMethods(methods.map((element) => {
                     if (element.kind = 5) {
                         return element;
                     }
                 }), activeEditor);
             }
+            console.log(LOG_DELIMITER);
         }
         else {
             return;
         }
+        
+    }
+
+    static async createJdocCommentsForWorkspace() {
+        let acitveWorkspace = vscode.workspace;
+        let activeWindow = vscode.window;
+
+        if (acitveWorkspace) {
+            let allFiles = await acitveWorkspace.findFiles('**/*.java');
+            for (let currFile of allFiles) {
+                let fileURI = vscode.Uri.file(currFile.fsPath);
+                let textDoc = await acitveWorkspace.openTextDocument(fileURI);
+                let textEditor = await activeWindow.showTextDocument(textDoc);
+                await this.createJdocCommentsCurrFile(textEditor);
+
+            }
+        }
+
+
+        // await acitveWorkspace.findFiles('**/*.java').then(async (allFiles: any) => {
+        //     await allFiles.forEach(async (currFile: { fsPath: string; }) => {
+        //         let fileURI = vscode.Uri.file(currFile.fsPath);
+        //         await acitveWorkspace.openTextDocument(fileURI).then(async (doc: any) => {
+        //             console.log('changing doc to '+fileURI);
+        //             await activeWindow.showTextDocument(doc,undefined,true).then(async (textEditor) => {
+        //                  await this.createJdocCommentsCurrFile(textEditor);
+        //             });
+        //         });
+
+        //     });
+        // });
     }
 
     static processMethods(methods: Array<vscode.DocumentSymbol | undefined>, activeEditor: vscode.TextEditor) {
@@ -152,6 +187,9 @@ export class JdocTools {
                 // 	// 	console.log(match);
                 // 	// });
                 // }
+            }
+            else if(methodDefnText.indexOf("/**")>-1){
+                existingJdoc = methodDefnText.substring(methodDefnText.indexOf("/**"), methodDefnText.lastIndexOf("*/") + 2).trim();
             }
         }
         return existingJdoc;
