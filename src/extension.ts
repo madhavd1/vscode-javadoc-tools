@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { TIMEOUT } from 'dns';
 import { throws } from 'assert';
+import {JdocTools} from './jdocTools';
 
 
 // this method is called when your extension is activated
@@ -128,13 +129,14 @@ export function activate(context: vscode.ExtensionContext) {
 		return existingJdoc;
 	}
 
+
 	let disposable = vscode.commands.registerCommand('extension.jdocGenerate', async () => {
 		// The code you place here will be executed every time your command is executed
 		const activeWindow = vscode.window;
 		const activeEditor = activeWindow.activeTextEditor;
 		// const regex = /([\s]*(@param|@throws)+[\s]+(.+))/g;
 		// const tagsRegex = /((@param|@throws|@see|@returns|@author){1}[\s]+[\n]*([a-zA-Z_$]*)[\s\n]+(.+))/g;
-		
+		JdocTools.createJdocCommentsCurrFile(activeEditor);
 
 		if (!activeEditor) {
 			return;
