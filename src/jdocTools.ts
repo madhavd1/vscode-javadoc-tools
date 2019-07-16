@@ -27,7 +27,7 @@ export class JdocTools {
                 }), activeEditor);
             }
         }
-        else{
+        else {
             return;
         }
     }
@@ -137,6 +137,8 @@ export class JdocTools {
         if (methodObj) {
             methodText = activeEditor.document.getText(methodObj.range);
             let methodDefnText = methodText.substring(0, methodText.indexOf("{")).trim();//Complete method definition. May contain existing javadoc
+            // const regex = /([\s]*(@param|@throws)+[\s]+(.+))/g;
+            // const tagsRegex = /((@param|@throws|@see|@returns|@author){1}[\s]+[\n]*([a-zA-Z_$]*)[\s\n]+(.+))/g;
             const tagsRegex = /((@param|@throws|@see|@returns|@author){1}[\s]+[\n]*([a-zA-Z_$0-9\s\n*]*))/g;
 
             if (methodDefnText.startsWith("/**") && methodDefnText.indexOf('*/') > -1) {
