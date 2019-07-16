@@ -23,13 +23,11 @@
     ],
     "main": "./out/extension.js",
     "contributes": {
-        "commands": [
-            {
-                "command": "extension.jdocGenerate",
-                "title": "Generate JavaDoc Comments",
-                "when": "editorLangId == Java"
-            }
-        ]
+        "commands": [{
+            "command": "extension.jdocGenerate",
+            "title": "Generate JavaDoc Comments",
+            "when": "editorLangId == Java"
+        }]
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
