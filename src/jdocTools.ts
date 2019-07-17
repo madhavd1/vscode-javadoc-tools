@@ -76,13 +76,16 @@ export class JdocTools {
                 let defnFoundBoolean = false;
                 let lineIndex = 0;
                 let existingJdoc = this.checkJdocExists(methodObj, activeEditor);
+                let multiLineComment = false;
                 if (!existingJdoc) {
                     do {
                         let currLine = activeEditor.document.lineAt(methodObj.range.start.line + lineIndex).text.trim();// getText(methodObj.range);
                         if (currLine.indexOf('{') > -1) {
                             defnFoundBoolean = true;
                         }
-                        methodDefnText = methodDefnText + this.StripComments(currLine);
+                        let returnArray = this.StripComments(currLine,multiLineComment);
+                        methodDefnText = methodDefnText + returnArray[0];
+                        multiLineComment = returnArray[1];
                         lineIndex++;
                     } while (!defnFoundBoolean);
                     console.log(methodDefnText);
@@ -196,24 +199,27 @@ export class JdocTools {
     }
 
 
-    static StripComments(currLine: string): string {
+    static StripComments(currLine: string,multiLineComment?: boolean): any[] {
         let originalText = currLine.trim();
         let evaluateMore = false;
         let javadocCommentStart = currLine.indexOf('/**');
         let multiLineCommentStart = currLine.indexOf('/*');
         let multiLineCommentEnd = currLine.indexOf('*/');
         let lineComment = currLine.indexOf('//');
+
+
+        
         if (currLine === "" || currLine === undefined) {
-            return "";
+            return ["",false];
         }
         if (currLine.startsWith("//")) {//check if this is a line comment. Iff true then return blank
-            return "";
+            return ["",false];
         }
-        else if (currLine.startsWith('/**') || currLine.startsWith('/*')) {//Check if this is beginning a multi line comment
+        else if (currLine.startsWith('/**') || currLine.startsWith('/*') || multiLineComment) {//Check if this is beginning a multi line comment
             if (currLine.endsWith('*/')) {//if comment ends in same line, return blank
-                return "";
+                return ["",false];
             }
-            else {//if comment does not end in same line
+            else {//if comment end is not the last characted
                 if (multiLineCommentEnd > -1 && multiLineCommentEnd < currLine.length - 1) { //redundant check to make sure that comment does not end in same line
                     // if (endIndex < currLine.length - 1) {
                     return this.StripComments(currLine.substring(multiLineCommentEnd, currLine.length).trim()); //In case it ends in same line before the end of actual line, strip the comment part
@@ -221,13 +227,13 @@ export class JdocTools {
                     // console.log(returnText);
                     // }
                 } else {//else return blank - same as currLine.endsWith('*/')
-                    return "";
+                    return ["",true];
                 }
             }
 
         }
         else if (currLine.startsWith('@')) {//ignoring this for now. Annotations to be handled in later release
-            return "";
+            return ["",true];
         }
         else if (lineComment > 1) {//if the comment starts in the middle of the line
             return this.StripComments(currLine.substring(0, lineComment));
@@ -236,6 +242,9 @@ export class JdocTools {
             if (!currLine.endsWith('*/') && multiLineCommentEnd > -1) {
                 return this.StripComments(currLine.substring(0, multiLineCommentStart) + currLine.substring(multiLineCommentEnd + 2, currLine.length));
             }
+            else if(!currLine.endsWith('*/') && multiLineCommentEnd<0){
+                return this.StripComments(currLine.substring(0, multiLineCommentStart),true);
+            }
             else if (currLine.endsWith('*/')) {
                 return this.StripComments(currLine.substring(0, multiLineCommentStart));
             }
@@ -243,6 +252,9 @@ export class JdocTools {
         else if (javadocCommentStart > 0) {//if multiline or javadoc comment start 
             if (!currLine.endsWith('*/') && multiLineCommentEnd > -1) {
                 return this.StripComments(currLine.substring(0, multiLineCommentStart) + currLine.substring(multiLineCommentEnd + 2, currLine.length));
+            }
+            else if(!currLine.endsWith('*/') && multiLineCommentEnd<0){
+                return this.StripComments(currLine.substring(0, multiLineCommentStart),true);
             }
             else if (currLine.endsWith('*/')) {
                 return this.StripComments(currLine.substring(0, javadocCommentStart));
@@ -255,12 +267,12 @@ export class JdocTools {
             if (multiLineCommentEnd > -1 && !currLine.endsWith('*/')) {
                 return this.StripComments(currLine.substring(multiLineCommentEnd + 1, currLine.length));
             } else if (multiLineCommentEnd > -1 && currLine.endsWith('*/')) {
-                return "";
+                return ["",false];
             } else {
-                return "";
+                return ["",false];
             }
         }
-        return currLine.trim();
+        return [currLine.trim(),false];
     }
 
 }
