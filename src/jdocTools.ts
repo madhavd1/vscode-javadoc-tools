@@ -16,7 +16,7 @@ export class JdocTools {
     static async createJdocCommentsCurrFile(activeEditor: vscode.TextEditor | undefined) {
         if (activeEditor) {
             console.log("Processing File: " + activeEditor.document.fileName);
-            console.log(LOG_DELIMITER);
+            console.log(NEW_LINE+LOG_DELIMITER);
             let symbols: Array<vscode.DocumentSymbol> | undefined = await this.getDocumentSymbols(activeEditor);
             let methods = this.getMethods(symbols);
             if (!methods) {
@@ -90,6 +90,7 @@ export class JdocTools {
                     } while (!defnFoundBoolean);
                     console.log(methodDefnText);
                     // methodDefnText = methodText.substring(0, methodText.indexOf("{")).trim();//Complete method definition. May contain existing javadoc
+                    methodDefnText = this.removeOthers(methodDefnText);
                     let tagArray = new Map<string, string>();
                     let javadocString: string = ""; //The final Javadoc string that will be inserted
                     let targetPosition: vscode.Position = methodObj.selectionRange.start.with(methodObj.selectionRange.start.line + jdOffset, methodObj.range.start.character);
@@ -206,6 +207,7 @@ export class JdocTools {
         let multiLineCommentStart = currLine.indexOf('/*');
         let multiLineCommentEnd = currLine.indexOf('*/');
         let lineComment = currLine.indexOf('//');
+       
 
 
         
@@ -273,6 +275,17 @@ export class JdocTools {
             }
         }
         return [currLine.trim(),false];
+    }
+
+
+    static removeOthers(methodDefnText: string): string{
+        let genericStart = methodDefnText.indexOf('<');
+        let genericEnd = methodDefnText.indexOf('>');
+        //Remove generics. The comma in generics mess with the logic
+        if(genericEnd-genericStart>1){
+            return this.removeOthers(methodDefnText.substring(0,genericStart)+methodDefnText.substring(genericEnd+1,methodDefnText.length));
+        }
+            return methodDefnText;
     }
 
 }
