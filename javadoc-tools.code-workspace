@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"typescript.tsc.autoDetect": "off",
+		"workbench.colorTheme": "Solarized Dark"
+	}
+}
