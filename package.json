@@ -4,7 +4,7 @@
     "description": "Javadoc Tools for VsCode",
     "author": "Madhav Dhingra",
     "publisher": "madhavd1",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "preview": true,
     "license": "MIT",
     "icon": "img/logo.png",
@@ -28,13 +28,13 @@
     "contributes": {
         "commands": [{
                 "command": "javadoc-tools.jdocGenerate",
-                "title": "Javadoc Tools: Generate Javadoc Comments for Open File",
-                "when": "editorLangId == Java"
+                "title": "Generate Javadoc Comments for Open File",
+                "category": "Javadoc Tools"
             },
             {
                 "command": "javadoc-tools.generateCommentsForWorkspace",
-                "title": "Javadoc Tools: Generate Javadoc Comments for Workspace",
-                "when": "editorLangId == java"
+                "title": "Generate Javadoc Comments for Workspace",
+                "category": "Javadoc Tools"
             },
             {
                 "command": "javadoc-tools.jdocGenerateFromContext",
@@ -45,8 +45,16 @@
             "explorer/context": [{
                 "command": "javadoc-tools.jdocGenerateFromContext",
                 "when": "resourceExtname == .java"
-            }]
-
+            }],
+            "commandPalette": [{
+                    "command": "javadoc-tools.jdocGenerateFromContext",
+                    "when": "false"
+                },
+                {
+                    "command": "javadoc-tools.jdocGenerate",
+                    "when": "editorLangId == java"
+                }
+            ]
         }
     },
     "scripts": {
@@ -65,5 +73,6 @@
     },
     "extensionDependencies": [
         "redhat.java"
-    ]
+    ],
+    "keywords": ["java", "javadoc"]
 }

@@ -1,4 +1,7 @@
 # Change Log
+### V1.2.1
+- Fix to remove Context Command from Pallete
+- Fix to display Pallete commands in correct file types only
 
 ### V1.2.0
 - **Generate Javadoc Comments for Workspace** renamed as **Javadoc Tools: Generate Javadoc Comments for Workspace**
