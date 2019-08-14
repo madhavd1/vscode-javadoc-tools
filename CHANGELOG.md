@@ -1,4 +1,8 @@
 # Change Log
+### V1.3.0
+- Added new Command **Javadoc Tools: Generate Comments for Select methods** - This command allows user to choose the methods for which javadoc comments need to be created
+- Minor bug fixes
+
 ### V1.2.1
 - Fix to remove Context Command from Pallete
 - Fix to display Pallete commands in correct file types only

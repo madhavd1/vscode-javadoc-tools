@@ -22,7 +22,8 @@
         "onCommand:javadoc-tools.jdocGenerate",
         "onCommand:javadoc-tools.generateCommentsForWorkspace",
         "onLanguage:java",
-        "workspaceContains:**/*.java"
+        "workspaceContains:**/*.java",
+        "onCommand:javadoc-tools.generateCommentsForMethod"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -39,6 +40,11 @@
             {
                 "command": "javadoc-tools.jdocGenerateFromContext",
                 "title": "Generate Javadoc Comments"
+            },
+            {
+                "command": "javadoc-tools.generateCommentsForMethod",
+                "title": "Generate Comments for Select methods",
+                "category": "Javadoc Tools"
             }
         ],
         "menus": {
@@ -52,6 +58,10 @@
                 },
                 {
                     "command": "javadoc-tools.jdocGenerate",
+                    "when": "editorLangId == java"
+                },
+                {
+                    "command": "javadoc-tools.generateCommentsForMethod",
                     "when": "editorLangId == java"
                 }
             ]
