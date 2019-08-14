@@ -1,10 +1,10 @@
 {
     "name": "javadoc-tools",
     "displayName": "Javadoc Tools",
-    "description": "Javadoc Tools for VsCode",
+    "description": "This extension provides tools to the user for creating Javadocs for classes.",
     "author": "Madhav Dhingra",
     "publisher": "madhavd1",
-    "version": "1.2.1",
+    "version": "1.3.0",
     "preview": true,
     "license": "MIT",
     "icon": "img/logo.png",

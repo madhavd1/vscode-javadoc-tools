@@ -20,6 +20,8 @@ Below commands are available for use -
 ### Generate Javadoc Comments for Open File/Workspace
 ![Generate Comments For Open File](/img/CmdPallete.png)
 
+## Issues
+For any problems with the extension please raise an issue on the github page - [https://github.com/madhavd1/vscode-javadoc-tools](https://github.com/madhavd1/vscode-javadoc-tools)
 ## Requirements
 * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
 
