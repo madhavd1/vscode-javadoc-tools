@@ -88,7 +88,7 @@ export class JdocTools {
                 if (!existingJdoc) {
                     do {
                         let currLine = activeEditor.document.lineAt(methodObj.range.start.line + lineIndex).text.trim();// getText(methodObj.range);
-                        if (currLine.indexOf('{') > -1) {
+                        if (currLine.endsWith('{')) {
                             defnFoundBoolean = true;
                         }
                         let returnArray = this.StripComments(currLine, multiLineComment);
@@ -101,11 +101,11 @@ export class JdocTools {
                     methodDefnText = this.removeOthers(methodDefnText);
                     let tagArray = new Map<string, string>();
                     let javadocString: string = ""; //The final Javadoc string that will be inserted
-                    let targetPosition: vscode.Position = methodObj.selectionRange.start.with(methodObj.selectionRange.start.line + jdOffset, methodObj.range.start.character);
+                    let targetPosition: vscode.Position = methodObj.range.start.with(methodObj.range.start.line + jdOffset, methodObj.range.start.character);
 
                     //Start Processing params
                     let paramStartIndex = methodDefnText.indexOf("(");
-                    let paramEndIndex = methodDefnText.indexOf(")");
+                    let paramEndIndex = methodDefnText.lastIndexOf(")");
                     let paramString = methodDefnText.substring(paramStartIndex + 1, paramEndIndex).trim();
                     let paramList;
                     if (paramString !== undefined && paramString !== "") {
@@ -243,19 +243,19 @@ export class JdocTools {
 
         }
         else if (currLine.startsWith('@')) {//ignoring this for now. Annotations to be handled in later release
-            return ["", true];
+            return ["", false];
         }
         else if (lineComment > 1) {//if the comment starts in the middle of the line
             return this.StripComments(currLine.substring(0, lineComment));
         }
         else if (multiLineCommentStart > 0) {//if multiline or javadoc comment start 
-            if (!currLine.endsWith('*/') && multiLineCommentEnd > -1) {
+            if (!currLine.endsWith('*/') && multiLineCommentEnd > -1) {//if the comment ends mid-line
                 return this.StripComments(currLine.substring(0, multiLineCommentStart) + currLine.substring(multiLineCommentEnd + 2, currLine.length));
             }
-            else if (!currLine.endsWith('*/') && multiLineCommentEnd < 0) {
+            else if (!currLine.endsWith('*/') && multiLineCommentEnd < 0) {//if there is no comment end in the line
                 return this.StripComments(currLine.substring(0, multiLineCommentStart), true);
             }
-            else if (currLine.endsWith('*/')) {
+            else if (currLine.endsWith('*/')) {//if the comment ends at the line end
                 return this.StripComments(currLine.substring(0, multiLineCommentStart));
             }
         }

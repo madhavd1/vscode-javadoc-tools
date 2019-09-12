@@ -6,6 +6,6 @@
 	],
 	"settings": {
 		"typescript.tsc.autoDetect": "off",
-		"workbench.colorTheme": "Solarized Dark"
+		"workbench.colorTheme": "Material Theme Darker High Contrast"
 	}
 }

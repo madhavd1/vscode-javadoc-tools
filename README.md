@@ -25,7 +25,8 @@ For any problems with the extension please raise an issue on the github page - [
 ## Requirements
 * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
 
-## Release Notes
-### V1.3.0
-- Added new Command **Javadoc Tools: Generate Comments for Select methods** - This command allows user to choose the methods for which javadoc comments need to be created
-- Minor bug fixes
+## Most Recent Release Notes
+### V1.3.1
+- Better handling for Spring Boot Projects
+- Fixed issue where javadoc comments were added below the @ annotation instead of above it
+>For detailed Version Notes, please see the changelog.

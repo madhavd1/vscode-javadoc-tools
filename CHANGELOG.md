@@ -1,4 +1,8 @@
 # Change Log
+### V1.3.1
+- Better handling for Spring Boot Projects
+- Fixed issue where javadoc comments were added below the @ annotation instead of above it
+
 ### V1.3.0
 - Added new Command **Javadoc Tools: Generate Comments for Select methods** - This command allows user to choose the methods for which javadoc comments need to be created
 - Minor bug fixes
