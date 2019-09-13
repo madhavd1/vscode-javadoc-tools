@@ -30,7 +30,7 @@ export function activate(context: ExtensionContext) {
 
 	context.subscriptions.push(
 		commands.registerCommand('javadoc-tools.generateCommentsForMethod', async () => {
-			const activeEditor = window.activeTextEdito2r;
+			const activeEditor = window.activeTextEditor;
 			if (activeEditor) {
 				let methodsCurrFile = JdocTools.getMethodFromCurrDocument(activeEditor);
 				methodsCurrFile.then(resolveMethods => {
