@@ -16,7 +16,7 @@ steps:
   displayName: 'Install Node.js'
 
     
-- script:
+- script: |
     pwd
     ls -ltr
     npm install
