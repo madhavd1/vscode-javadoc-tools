@@ -18,7 +18,7 @@ steps:
     
 - script: |
     pwd
-    ls -ltr
+    ls -ltra
     npm install
     npm run compile
   displayName: 'npm install and build'
