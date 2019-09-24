@@ -14,11 +14,10 @@ steps:
   inputs:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
-- task: npmAuthenticate@0
-  inputs:
-    workingFile: 'vscode-javadoc-tools/.npmrc'
+
     
 - script:
+    pwd
     npm install
     npm run compile
   displayName: 'npm install and build'
