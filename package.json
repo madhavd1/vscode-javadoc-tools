@@ -27,7 +27,8 @@
     ],
     "main": "./out/extension.js",
     "contributes": {
-        "commands": [{
+        "commands": [
+            {
                 "command": "javadoc-tools.jdocGenerate",
                 "title": "Generate Javadoc Comments for Open File",
                 "category": "Javadoc Tools"
@@ -45,14 +46,22 @@
                 "command": "javadoc-tools.generateCommentsForMethod",
                 "title": "Generate Comments for Select methods",
                 "category": "Javadoc Tools"
+            },
+            {
+                "command": "javadoc-tools.exportJavadoc",
+                "title":"Export Javadoc",
+                "category": "Javadoc Tools"
             }
         ],
         "menus": {
-            "explorer/context": [{
-                "command": "javadoc-tools.jdocGenerateFromContext",
-                "when": "resourceExtname == .java"
-            }],
-            "commandPalette": [{
+            "explorer/context": [
+                {
+                    "command": "javadoc-tools.jdocGenerateFromContext",
+                    "when": "resourceExtname == .java"
+                }
+            ],
+            "commandPalette": [
+                {
                     "command": "javadoc-tools.jdocGenerateFromContext",
                     "when": "false"
                 },
@@ -63,9 +72,28 @@
                 {
                     "command": "javadoc-tools.generateCommentsForMethod",
                     "when": "editorLangId == java"
+                },
+                {
+                    "command": "javadoc-tools.exportJavadoc",
+                    "when": "editorLangId == java"
                 }
             ]
-        }
+        },
+        "configuration":
+            {
+                "title": "Javadoc Tools",
+                "properties": {
+                    "javadoc-tools.generateJavadoc.workspaceSourceFolder":{
+                        "type":"string",
+                        "description": "Sets the default \"source\" folder which is read when Generating the Javadoc. Default value is the \"src\" folder in Workspace Root"
+
+                    },
+                    "javadoc-tools.generateJavadoc.targetFolder":{
+                        "type":"string",
+                        "description": "Sets the target folder where the Javadoc will be generated. Default path will be ${WorkspaceRoot}\\javadoc"
+                    }
+                }
+            }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
