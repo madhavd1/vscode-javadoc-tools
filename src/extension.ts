@@ -3,6 +3,7 @@ import { ExtensionContext, commands, window } from 'vscode';
 import { JdocTools } from './jdocTools';
 import * as open from 'open';
 import * as consts from './Constants';
+import * as fsUtils from './FSUtils';
 
 const packageJSON = require('../package.json');
 
@@ -64,16 +65,16 @@ export function activate(context: ExtensionContext) {
 
 	let disposable3 = commands.registerCommand('javadoc-tools.exportJavadoc', () => {
 		//get workspace src folder
+		let fldrs: string[][] = [];
 		let srcFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.workspaceSourceFolder');
 		if (!srcFolder) {
 			srcFolder = vscode.workspace.rootPath + '\\src';
-			let uri;
 			if (typeof srcFolder === 'string') {
-				uri = vscode.Uri.file(srcFolder);
+				fldrs = fsUtils.getChildDir(srcFolder);
+				fldrs = fldrs.filter(fldr => fsUtils.isDirectory(fldr[1]));
+				// fldrs = fldrs.map(fldr => fldr[0]);
+				console.log(fldrs);
 			}
-			let wf = uri ? vscode.workspace.getWorkspaceFolder(uri) : undefined;
-			console.log(typeof wf);
-			console.log(wf);
 		}
 		console.log(srcFolder);
 
@@ -92,11 +93,20 @@ export function activate(context: ExtensionContext) {
 				javaHome.replace('\\$', '');
 			}
 		}
-
-		let cmd = ('"' + javaHome + '\\bin\\javadoc" -d ' + trgFolder + '-sourcepath').trim();
-		let terminal = window.createTerminal('Export Javadoc');
-		terminal.show();
-		terminal.sendText(cmd);
+		if (fldrs) {
+			let cmd =
+				'"' +
+				javaHome +
+				'\\bin\\javadoc" -d "' +
+				trgFolder +
+				'" -sourcepath "' +
+				srcFolder +
+				'" -subpackages ' +
+				fldrs.map(fldr => fldr[0]).join(' ');
+			let terminal = window.createTerminal('Export Javadoc');
+			terminal.show();
+			terminal.sendText(cmd);
+		}
 	});
 	context.subscriptions.push(disposable, disposable1, disposable2, disposable3);
 }
