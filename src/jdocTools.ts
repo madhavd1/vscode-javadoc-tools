@@ -6,7 +6,7 @@ const JAVADOC_RETURN = '@return ';
 const JAVADOC_END = '\n */';
 const ASTERISK = '\n * ';
 const NEW_LINE = '\n';
-const LOG_DELIMITER = '------------------------------------------------------------------------------------------';
+const LOG_DELIMITER = '-------------------------------------------------------------------------------------------';
 const acitveWorkspace = vscode.workspace;
 const activeWindow = vscode.window;
 
