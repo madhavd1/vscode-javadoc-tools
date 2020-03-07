@@ -69,12 +69,12 @@ export function activate(context: ExtensionContext) {
 		let srcFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.workspaceSourceFolder');
 		if (!srcFolder) {
 			srcFolder = vscode.workspace.rootPath + '\\src';
-			if (typeof srcFolder === 'string') {
-				fldrs = fsUtils.getChildDir(srcFolder);
-				fldrs = fldrs.filter(fldr => fsUtils.isDirectory(fldr[1]));
-				// fldrs = fldrs.map(fldr => fldr[0]);
-				console.log(fldrs);
-			}
+		}
+		if (typeof srcFolder === 'string') {
+			fldrs = fsUtils.getChildDir(srcFolder);
+			fldrs = fldrs.filter(fldr => fsUtils.isDirectory(fldr[1]));
+			// fldrs = fldrs.map(fldr => fldr[0]);
+			console.log(fldrs);
 		}
 		console.log(srcFolder);
 
@@ -93,11 +93,15 @@ export function activate(context: ExtensionContext) {
 				javaHome.replace('\\$', '');
 			}
 		}
+
+		let runMode = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.runMode');
 		if (fldrs) {
 			let cmd =
 				'"' +
 				javaHome +
-				'\\bin\\javadoc" -d "' +
+				'\\bin\\javadoc" ' +
+				runMode +
+				' -d "' +
 				trgFolder +
 				'" -sourcepath "' +
 				srcFolder +

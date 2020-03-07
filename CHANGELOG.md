@@ -1,4 +1,8 @@
 # Change Log
+### V1.4.0
+- Added new command **Javadoc Tools: Export Javadoc** - This command allows you to export your Javadoc as well!
+> More information about the new command can be found in README file
+
 ### V1.3.1
 - Better handling for Spring Boot Projects
 - Fixed issue where javadoc comments were added below the @ annotation instead of above it

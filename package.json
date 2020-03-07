@@ -4,8 +4,8 @@
     "description": "This extension provides tools to the user for creating Javadocs for classes.",
     "author": "Madhav Dhingra",
     "publisher": "madhavd1",
-    "version": "1.3.1",
-    "preview": true,
+    "version": "1.4.0",
+    "preview": false,
     "license": "MIT",
     "icon": "img/logo.png",
     "repository": {
@@ -16,7 +16,7 @@
         "vscode": "^1.33.0"
     },
     "categories": [
-        "Other"
+        "Other","Snippets","Programming Languages"
     ],
     "activationEvents": [
         "onCommand:javadoc-tools.jdocGenerate",
@@ -91,6 +91,12 @@
                     "javadoc-tools.generateJavadoc.targetFolder":{
                         "type":"string",
                         "description": "Sets the target folder where the Javadoc will be generated. Default path will be ${WorkspaceRoot}\\javadoc"
+                    },
+                    "javadoc-tools.generateJavadoc.runMode":{
+                        "type":"string",
+                        "enum": ["-package","-private","-protected","-public"],
+                        "default":"-public",
+                        "description": "Set value to run in corresponding mode. Default value is \"-public\". [\"-package\",\"-private\",\"-protected\",\"-public\"]"
                     }
                 }
             }

@@ -2,6 +2,12 @@
 
 This extension allows user to generate javadoc comments for all methods within a class.
 Below commands are available for use - 
+* **Javadoc Tools: Export Javadoc** - This command allows you to export your Javadoc as well!
+  > Below properties can be set to customize this command
+  > * **javadoc-tools.generateJavadoc.workspaceSourceFolder** - Sets the default source folder which is read when Generating the Javadoc. Default value is the \"src\" folder in Workspace Root
+  > * **javadoc-tools.generateJavadoc.targetFolder** - Sets the target folder where the Javadoc will be generated. Default path will be ${WorkspaceRoot}\\javadoc
+  > * **javadoc-tools.generateJavadoc.runMode** - Set value to run in corresponding mode. Default value is \"-public\". Possible values are ["-package","-private","-protected","-public"]
+
 * **Javadoc Tools: Generate Comments for Select methods** - This command allows user to choose the methods for which javadoc comments need to be created
 * **Javadoc Tools: Generate Javadoc Comments for Open File** - Only generates Javadoc Comments for the open File in focus
 * **Javadoc Tools: Generate Javadoc Comments for Workspace** - Generates Javadoc for all classes within the workspace.
@@ -10,6 +16,9 @@ Below commands are available for use -
 * **Generate Javadoc Comments** - New option added to the context menu for Java Clases. Generates Javadoc Comments for the selected class.
 
 ## Features
+
+### Export Javadoc for your workspace
+![Export javadoc](/img/export_javadoc.jpg)
 
 ### Generate Comments for Select methods
 ![Generate Comment for Select Method](/img/select_method.gif)
@@ -26,7 +35,8 @@ For any problems with the extension please raise an issue on the github page - [
 * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
 
 ## Most Recent Release Notes
-### V1.3.1
-- Better handling for Spring Boot Projects
-- Fixed issue where javadoc comments were added below the @ annotation instead of above it
->For detailed Version Notes, please see the changelog.
+### V1.4.0
+- Added new command **Javadoc Tools: Export Javadoc** - This command allows you to export your Javadoc as well!
+>Details on how to use the new command can be found above
+
+>For complete version history, please see the changelog.
