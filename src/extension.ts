@@ -97,7 +97,7 @@ export function activate(context: ExtensionContext) {
 		let runMode = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.runMode');
 		if (fldrs) {
 			let cmd =
-				'"' +
+				'& "' +
 				javaHome +
 				'\\bin\\javadoc" ' +
 				runMode +
