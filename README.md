@@ -9,7 +9,7 @@ Below commands are available for use -
   > * **javadoc-tools.generateJavadoc.runMode** - Set value to run in corresponding mode. Default value is \"-public\". Possible values are ["-package","-private","-protected","-public"]
   > * **javadoc-tools.generateJavadoc.isUsingPwsh** - Set this property to true if you are using Powershell as your default Terminal
 
-* **Javadoc Tools: Generate Comments for Select methods** - This command allows user to choose the methods for which javadoc comments need to be created
+* **Javadoc Tools: Generate Comments for Select methods** - This command allows user to choose the methods for which javadoc comments need to be created. Can also be triggered from the right-click context menu within a file.
 * **Javadoc Tools: Generate Javadoc Comments for Open File** - Only generates Javadoc Comments for the open File in focus
 * **Javadoc Tools: Generate Javadoc Comments for Workspace** - Generates Javadoc for all classes within the workspace.
     The files will be opened in the editor and the javadoc comments will be added. This command will not autosave the modified Files.
@@ -40,5 +40,6 @@ For any problems with the extension please raise an issue on the github page - [
 - Added a new Property `javadoc-tools.generateJavadoc.isUsingPwsh` which can be set to true to support Powershell javadoc export. Thanks to @JoshJamesLS for pointing out the need for this.
 - Fixes [Issue #1](https://github.com/madhavd1/vscode-javadoc-tools/issues/1) - Getters, Setters, Equals, Hashcode etc. methods added by Lombok are ignored during Javadoc Comments creation.
 - Improved handling for `Javadoc Tools: Generate Javadoc Comments for Workspace` command. It will now show proper warnings and a Progress Bar. The command can also be cancelled now.
+- **Javadoc Tools: Generate Comments for Select methods** command can now be triggered from the right click Context Menu within the file.
 
 >For complete version history, please see the [changelog](https://marketplace.visualstudio.com/items/madhavd1.javadoc-tools/changelog).

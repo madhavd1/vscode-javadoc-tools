@@ -53,6 +53,11 @@
                 "command": "javadoc-tools.exportJavadoc",
                 "title": "Export Javadoc",
                 "category": "Javadoc Tools"
+            },
+            {
+                "command": "javadoc-tools.generateCommentsForMethod",
+                "title": "Javadoc Tools: Create Javadoc for Methods",
+                "category": "Javadoc Tools"
             }
         ],
         "menus": {
@@ -60,6 +65,12 @@
                 {
                     "command": "javadoc-tools.jdocGenerateFromContext",
                     "when": "resourceExtname == .java"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "javadoc-tools.generateCommentsForMethod",
+                    "when": "editorLangId == java"
                 }
             ],
             "commandPalette": [
