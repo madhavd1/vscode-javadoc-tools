@@ -1,4 +1,6 @@
 # Change Log
+### V1.5.0
+- Added a new Property `javadoc-tools.generateJavadoc.isUsingPwsh` which cane be set to true to support Powershell javadoc export. Thanks to @JoshJamesLS for pointing out the need for this.
 ### V1.4.0
 - Added new command **Javadoc Tools: Export Javadoc** - This command allows you to export your Javadoc as well!
 > More information about the new command can be found in README file

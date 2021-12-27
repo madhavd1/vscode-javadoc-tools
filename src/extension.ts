@@ -32,9 +32,9 @@ export function activate(context: ExtensionContext) {
 			const activeEditor = window.activeTextEditor;
 			if (activeEditor) {
 				let methodsCurrFile = JdocTools.getMethodFromCurrDocument(activeEditor);
-				methodsCurrFile.then(resolveMethods => {
+				methodsCurrFile.then((resolveMethods) => {
 					if (resolveMethods) {
-						let items = Object.values(resolveMethods).map(item => ({
+						let items = Object.values(resolveMethods).map((item) => ({
 							label: item.name
 						}));
 						// const quickPOptions = new vscode.qui
@@ -43,11 +43,11 @@ export function activate(context: ExtensionContext) {
 								canPickMany: true,
 								placeHolder: 'Select the methods to generate Comments'
 							})
-							.then(resolveQP => {
+							.then((resolveQP) => {
 								if (resolveQP) {
 									let methodList: Array<vscode.DocumentSymbol | undefined> = new Array();
 									for (const element of resolveQP) {
-										let checkMethod = resolveMethods.filter(method => method.name === element.label)[0];
+										let checkMethod = resolveMethods.filter((method) => method.name === element.label)[0];
 										if (checkMethod) {
 											methodList.push(checkMethod);
 										}
@@ -72,7 +72,7 @@ export function activate(context: ExtensionContext) {
 		}
 		if (typeof srcFolder === 'string') {
 			fldrs = fsUtils.getChildDir(srcFolder);
-			fldrs = fldrs.filter(fldr => fsUtils.isDirectory(fldr[1]));
+			fldrs = fldrs.filter((fldr) => fsUtils.isDirectory(fldr[1]));
 			// fldrs = fldrs.map(fldr => fldr[0]);
 			console.log(fldrs);
 		}
@@ -95,6 +95,7 @@ export function activate(context: ExtensionContext) {
 		}
 
 		let runMode = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.runMode');
+		let usingPwsh = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.isUsingPwsh');
 		if (fldrs) {
 			let cmd =
 				'"' +
@@ -106,7 +107,10 @@ export function activate(context: ExtensionContext) {
 				'" -sourcepath "' +
 				srcFolder +
 				'" -subpackages ' +
-				fldrs.map(fldr => fldr[0]).join(' ');
+				fldrs.map((fldr) => fldr[0]).join(' ');
+			if (usingPwsh) {
+				cmd = '&' + cmd;
+			}
 			let terminal = window.createTerminal('Export Javadoc');
 			terminal.show();
 			terminal.sendText(cmd);
@@ -121,20 +125,13 @@ export function showUpgradeNotification(context: ExtensionContext) {
 	let instldVersion = context.globalState.get(consts.INSTL_VER);
 	console.log(instldVersion);
 	if (packageJSON.version !== instldVersion) {
-		vscode.window
-			.showInformationMessage(
-				consts.CHNGLOG_MSG,
-				consts.BTN_SHOW_CHNGLOG,
-				consts.BTN_DONT_SHOW,
-				consts.BTN_REMIND_LATER
-			)
-			.then(btn => {
-				if (btn === consts.BTN_SHOW_CHNGLOG) {
-					open(consts.CHNGLOG_URI);
-					context.globalState.update(consts.INSTL_VER, packageJSON.version);
-				} else if (btn === consts.BTN_DONT_SHOW) {
-					context.globalState.update(consts.INSTL_VER, packageJSON.version);
-				}
-			});
+		vscode.window.showInformationMessage(consts.CHNGLOG_MSG, consts.BTN_SHOW_CHNGLOG, consts.BTN_DONT_SHOW, consts.BTN_REMIND_LATER).then((btn) => {
+			if (btn === consts.BTN_SHOW_CHNGLOG) {
+				open(consts.CHNGLOG_URI);
+				context.globalState.update(consts.INSTL_VER, packageJSON.version);
+			} else if (btn === consts.BTN_DONT_SHOW) {
+				context.globalState.update(consts.INSTL_VER, packageJSON.version);
+			}
+		});
 	}
 }
