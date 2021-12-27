@@ -1,3 +1,4 @@
+import { error } from 'console';
 import * as vscode from 'vscode';
 const JAVADOC_START = '\n/** ';
 const JAVADOC_PARAMS = '@param ';
@@ -40,15 +41,35 @@ export class JdocTools {
 	}
 
 	static async createJdocCommentsForWorkspace() {
-		if (acitveWorkspace) {
-			let allFiles = await acitveWorkspace.findFiles('**/*.java');
-			for (let currFile of allFiles) {
-				let fileURI = vscode.Uri.file(currFile.fsPath);
-				let textDoc = await acitveWorkspace.openTextDocument(fileURI);
-				let textEditor = await activeWindow.showTextDocument(textDoc);
-				await this.createJdocCommentsCurrFile();
+		vscode.window.withProgress(
+			{
+				location: vscode.ProgressLocation.Notification,
+				title: 'Running Javadoc Tools: Generate Javadoc Comments for Workspace',
+				cancellable: true
+			},
+			async (progress, token) => {
+				let breakProcess = false;
+				token.onCancellationRequested(() => {
+					console.log('User canceled the long running operation');
+					breakProcess = true;
+				});
+				progress.report({ increment: 0 });
+
+				let allFiles = await acitveWorkspace.findFiles('**/*.java');
+				let incrementSize = 100 / allFiles.length;
+
+				for (let currFile of allFiles) {
+					let fileURI = vscode.Uri.file(currFile.fsPath);
+					let textDoc = await acitveWorkspace.openTextDocument(fileURI);
+					let textEditor = await activeWindow.showTextDocument(textDoc);
+					await this.createJdocCommentsCurrFile();
+					progress.report({ increment: incrementSize });
+					if (breakProcess) {
+						break;
+					}
+				}
 			}
-		}
+		);
 	}
 
 	static openFile(uri: vscode.Uri) {

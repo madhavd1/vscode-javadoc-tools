@@ -18,7 +18,13 @@ export function activate(context: ExtensionContext) {
 	});
 
 	let disposable1 = commands.registerCommand('javadoc-tools.generateCommentsForWorkspace', () => {
-		JdocTools.createJdocCommentsForWorkspace();
+		vscode.window.showInformationMessage(consts.RUN_CONFIRM, consts.YES, consts.NO).then((btn) => {
+			if (btn === consts.YES) {
+				JdocTools.createJdocCommentsForWorkspace();
+			} else if (btn === consts.NO) {
+				console.log('Javadoc Tools: User chose to cancel Workspace Javadoc creation');
+			}
+		});
 	});
 
 	let disposable2 = commands.registerCommand('javadoc-tools.jdocGenerateFromContext', (uri: vscode.Uri) => {
