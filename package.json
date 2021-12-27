@@ -16,7 +16,9 @@
         "vscode": "^1.33.0"
     },
     "categories": [
-        "Other","Snippets","Programming Languages"
+        "Other",
+        "Snippets",
+        "Programming Languages"
     ],
     "activationEvents": [
         "onCommand:javadoc-tools.jdocGenerate",
@@ -49,7 +51,7 @@
             },
             {
                 "command": "javadoc-tools.exportJavadoc",
-                "title":"Export Javadoc",
+                "title": "Export Javadoc",
                 "category": "Javadoc Tools"
             }
         ],
@@ -79,41 +81,52 @@
                 }
             ]
         },
-        "configuration":
-            {
-                "title": "Javadoc Tools",
-                "properties": {
-                    "javadoc-tools.generateJavadoc.workspaceSourceFolder":{
-                        "type":"string",
-                        "description": "Sets the default \"source\" folder which is read when Generating the Javadoc. Default value is the \"src\" folder in Workspace Root"
-
-                    },
-                    "javadoc-tools.generateJavadoc.targetFolder":{
-                        "type":"string",
-                        "description": "Sets the target folder where the Javadoc will be generated. Default path will be ${WorkspaceRoot}\\javadoc"
-                    },
-                    "javadoc-tools.generateJavadoc.runMode":{
-                        "type":"string",
-                        "enum": ["-package","-private","-protected","-public"],
-                        "default":"-public",
-                        "description": "Set value to run in corresponding mode. Default value is \"-public\". [\"-package\",\"-private\",\"-protected\",\"-public\"]"
-                    }
+        "configuration": {
+            "title": "Javadoc Tools",
+            "properties": {
+                "javadoc-tools.generateJavadoc.workspaceSourceFolder": {
+                    "type": "string",
+                    "description": "Sets the default \"source\" folder which is read when Generating the Javadoc. Default value is the \"src\" folder in Workspace Root"
+                },
+                "javadoc-tools.generateJavadoc.targetFolder": {
+                    "type": "string",
+                    "description": "Sets the target folder where the Javadoc will be generated. Default path will be ${WorkspaceRoot}\\javadoc"
+                },
+                "javadoc-tools.generateJavadoc.runMode": {
+                    "type": "string",
+                    "enum": [
+                        "-package",
+                        "-private",
+                        "-protected",
+                        "-public"
+                    ],
+                    "default": "-public",
+                    "description": "Set value to run in corresponding mode. Default value is \"-public\". [\"-package\",\"-private\",\"-protected\",\"-public\"]"
+                },
+                "javadoc-tools.generateJavadoc.isUsingPwsh":{
+                    "type":"boolean",
+                    "default" : "false",
+                    "description": "Set this property to true if you are using Powershell as your default Terminal"
+                    
                 }
             }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
         "test": "npm run compile && node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^3.3.1",
-        "vscode": "^1.1.28",
-        "tslint": "^5.12.1",
+        "@types/glob": "^7.2.0",
+        "@types/mocha": "^2.2.42",
         "@types/node": "^10.12.21",
-        "@types/mocha": "^2.2.42"
+        "@types/vscode": "^1.33.0",
+        "@vscode/test-electron": "^2.0.0",
+        "glob": "^7.2.0",
+        "tslint": "^5.12.1",
+        "typescript": "^3.3.1"
     },
     "extensionDependencies": [
         "redhat.java"
@@ -123,6 +136,6 @@
         "javadoc"
     ],
     "dependencies": {
-        "open": "^6.4.0"
+        "open": "^8.4.0"
     }
 }
