@@ -4,7 +4,7 @@
     "description": "This extension provides tools to the user for creating Javadocs for classes.",
     "author": "Madhav Dhingra",
     "publisher": "madhavd1",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "preview": false,
     "license": "MIT",
     "icon": "img/logo.png",
@@ -103,11 +103,10 @@
                     "default": "-public",
                     "description": "Set value to run in corresponding mode. Default value is \"-public\". [\"-package\",\"-private\",\"-protected\",\"-public\"]"
                 },
-                "javadoc-tools.generateJavadoc.isUsingPwsh":{
-                    "type":"boolean",
-                    "default" : "false",
+                "javadoc-tools.generateJavadoc.isUsingPwsh": {
+                    "type": "boolean",
+                    "default": "false",
                     "description": "Set this property to true if you are using Powershell as your default Terminal"
-                    
                 }
             }
         }
