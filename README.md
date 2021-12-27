@@ -36,10 +36,11 @@ For any problems with the extension please raise an issue on the github page - [
 * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
 
 ## Most Recent Release Notes
+### V1.5.1
+- **Javadoc Tools: Generate Comments for Select methods** command can now be triggered from the right click Context Menu within the file.
 ### V1.5.0
 - Added a new Property `javadoc-tools.generateJavadoc.isUsingPwsh` which can be set to true to support Powershell javadoc export. Thanks to @JoshJamesLS for pointing out the need for this.
-- Fixes [Issue #1](https://github.com/madhavd1/vscode-javadoc-tools/issues/1) - Getters, Setters, Equals, Hashcode etc. methods added by Lombok are ignored during Javadoc Comments creation.
+- Fixes [Issue #1](https://github.com/madhavd1/vscode-javadoc-tools/issues/1) - Getters, Setters, Equals, Hashcode etc. methods added by Lombok are ignored during Javadoc Comment creation.
 - Improved handling for `Javadoc Tools: Generate Javadoc Comments for Workspace` command. It will now show proper warnings and a Progress Bar. The command can also be cancelled now.
-- **Javadoc Tools: Generate Comments for Select methods** command can now be triggered from the right click Context Menu within the file.
 
 >For complete version history, please see the [changelog](https://marketplace.visualstudio.com/items/madhavd1.javadoc-tools/changelog).
