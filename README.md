@@ -2,7 +2,7 @@
 
 This extension allows user to generate javadoc comments for all methods within a class.
 Below commands are available for use - 
-* **Javadoc Tools: Export Javadoc** - This command allows you to export your Javadoc as well!
+* **Javadoc Tools: Export Javadoc** - This command allows you to export your Javadoc. The command should be executed in a Workspace(Multi-root workspaces supported as of version 1.6.0)
   > Below properties can be set to customize this command
   > * **javadoc-tools.generateJavadoc.workspaceSourceFolder** - Sets the default source folder which is read when Generating the Javadoc. Default value is the \"src\" folder in Workspace Root
   > * **javadoc-tools.generateJavadoc.targetFolder** - Sets the target folder where the Javadoc will be generated. Default path will be ${WorkspaceRoot}\\javadoc
