@@ -16,7 +16,10 @@
 			"outFiles": [
 				"${workspaceFolder}/out/**/*.js"
 			],
-			"preLaunchTask": "npm: watch"
+			"preLaunchTask": "npm: watch",
+            "env": {
+                "JAVA_HOME": "/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home"
+            }
 		},
 		{
 			"name": "Extension Tests",

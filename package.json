@@ -97,7 +97,7 @@
             "properties": {
                 "javadoc-tools.generateJavadoc.workspaceSourceFolder": {
                     "type": "string",
-                    "description": "Sets the default \"source\" folder which is read when Generating the Javadoc. Default value is the \"src\" folder in Workspace Root"
+                    "description": "Sets the default \"source\" folder relative to the Workspace Root Folder. This folder is read when Generating the Javadoc. Default value is \"src\"."
                 },
                 "javadoc-tools.generateJavadoc.targetFolder": {
                     "type": "string",
