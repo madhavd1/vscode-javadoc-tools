@@ -6,6 +6,7 @@ import * as consts from './Constants';
 import * as fsUtils from './FSUtils';
 
 const packageJSON = require('../package.json');
+const path = require('path')
 
 export function activate(context: ExtensionContext) {
 	console.log('Javadoc Tools is now active');
@@ -74,7 +75,7 @@ export function activate(context: ExtensionContext) {
 		let fldrs: string[][] = [];
 		let srcFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.workspaceSourceFolder');
 		if (!srcFolder) {
-			srcFolder = vscode.workspace.rootPath + '\\src';
+			srcFolder = vscode.workspace.rootPath + path.sep + 'src';
 		}
 		if (typeof srcFolder === 'string') {
 			fldrs = fsUtils.getChildDir(srcFolder);
@@ -86,7 +87,7 @@ export function activate(context: ExtensionContext) {
 
 		let trgFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.targetFolder');
 		if (!trgFolder) {
-			trgFolder = vscode.workspace.rootPath + '\\javadoc';
+			trgFolder = vscode.workspace.rootPath + path.sep + 'javadoc';
 		}
 		console.log(trgFolder);
 
@@ -95,8 +96,8 @@ export function activate(context: ExtensionContext) {
 			javaHome = process.env.JAVA_HOME;
 		}
 		if (javaHome) {
-			if (javaHome.endsWith('\\')) {
-				javaHome.replace('\\$', '');
+			if (javaHome.endsWith(path.sep)) {
+				javaHome.replace(path.sep + '$', '');
 			}
 		}
 
@@ -106,7 +107,7 @@ export function activate(context: ExtensionContext) {
 			let cmd =
 				'"' +
 				javaHome +
-				'\\bin\\javadoc" ' +
+				path.sep + 'bin' + path.sep + 'javadoc" ' +
 				runMode +
 				' -d "' +
 				trgFolder +
