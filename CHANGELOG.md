@@ -1,4 +1,7 @@
 # Change Log
+### V1.6.0
+- Added Support for Multi Root Workspaces
+- Fix for [Issue #15] - Can't export: path separator issues on mac (probably also linux) 
 ### V1.5.1
 - **Javadoc Tools: Generate Comments for Select methods** command can now be triggered from the right click Context Menu within the file.
 ### V1.5.0
