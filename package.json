@@ -13,7 +13,7 @@
         "url": "https://github.com/madhavd1/vscode-javadoc-tools"
     },
     "engines": {
-        "vscode": "^1.33.0"
+        "vscode": "^1.93.0"
     },
     "categories": [
         "Other",
@@ -21,11 +21,8 @@
         "Programming Languages"
     ],
     "activationEvents": [
-        "onCommand:javadoc-tools.jdocGenerate",
-        "onCommand:javadoc-tools.generateCommentsForWorkspace",
         "onLanguage:java",
-        "workspaceContains:**/*.java",
-        "onCommand:javadoc-tools.generateCommentsForMethod"
+        "workspaceContains:**/*.java"
     ],
     "main": "./out/extension.js",
     "contributes": {
@@ -131,12 +128,12 @@
     "devDependencies": {
         "@types/glob": "^7.2.0",
         "@types/mocha": "^2.2.42",
-        "@types/node": "^10.12.21",
-        "@types/vscode": "^1.33.0",
-        "@vscode/test-electron": "^2.0.0",
+        "@types/node": "^22.5.4",
+        "@types/vscode": "^1.93.0",
+        "@vscode/test-electron": "^2.4.1",
         "glob": "^7.2.0",
-        "tslint": "^5.12.1",
-        "typescript": "^3.3.1"
+        "tslint": "^6.1.3",
+        "typescript": "^5.5.4"
     },
     "extensionDependencies": [
         "redhat.java"
