@@ -165,7 +165,7 @@ export class JdocTools {
 					if (javadocString !== '') {
 						let finalJDocString: vscode.SnippetString = new vscode.SnippetString(JAVADOC_START + javadocString + JAVADOC_END + NEW_LINE);
 						await activeEditor.insertSnippet(finalJDocString, targetPosition);
-						jdOffset += 3;
+						jdOffset += 2;
 					}
 				}
 			}
