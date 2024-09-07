@@ -14,7 +14,7 @@ const activeWindow = vscode.window;
 export class JdocTools {
 	// static activeEditor : vscode.TextEditor | undefined = vscode.window.activeTextEditor;
 
-	constructor() {}
+	constructor() { }
 
 	static async createJdocCommentsCurrFile() {
 		let activeEditor = activeWindow.activeTextEditor;
@@ -92,9 +92,9 @@ export class JdocTools {
 	//     });
 	// });
 
-	static processMethods(methods: Array<vscode.DocumentSymbol | undefined>, activeEditor: vscode.TextEditor) {
+	static async processMethods(methods: Array<vscode.DocumentSymbol | undefined>, activeEditor: vscode.TextEditor) {
 		let jdOffset = 0;
-		methods.forEach((methodObj) => {
+		for (const methodObj of methods) {
 			if (methodObj) {
 				// let methodRange:vscode.Range= ;
 				let methodDefnText = '';
@@ -164,12 +164,12 @@ export class JdocTools {
 					}
 					if (javadocString !== '') {
 						let finalJDocString: vscode.SnippetString = new vscode.SnippetString(JAVADOC_START + javadocString + JAVADOC_END + NEW_LINE);
-						activeEditor.insertSnippet(finalJDocString, targetPosition);
+						const response = await activeEditor.insertSnippet(finalJDocString, targetPosition);
 						jdOffset += 3;
 					}
 				}
 			}
-		});
+		}
 	}
 
 	static async getDocumentSymbols(activeEditor: vscode.TextEditor) {
