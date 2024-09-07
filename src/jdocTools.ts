@@ -1,6 +1,6 @@
 import { error } from 'console';
 import * as vscode from 'vscode';
-const JAVADOC_START = '\n/** ';
+const JAVADOC_START = '/** ';
 const JAVADOC_PARAMS = '@param ';
 const JAVADOC_THROWS = '@throws ';
 const JAVADOC_RETURN = '@return ';
