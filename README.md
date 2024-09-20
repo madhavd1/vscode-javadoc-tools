@@ -1,3 +1,7 @@
+# THIS PROJECT IS NO LONGER MAINTAINED
+
+I just don't have any time to maintain this at this point. I may eventually come back and start updating again but for the forseeable future, i'm not making any updates.
+
 # Javadoc Tools for Visual Studio Code
 
 This extension allows user to generate javadoc comments for all methods within a class.
