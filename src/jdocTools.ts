@@ -26,11 +26,7 @@ export class JdocTools {
 				return;
 			} else {
 				await this.processMethods(
-					methods.map((element) => {
-						if ((element.kind = 5)) {
-							return element;
-						}
-					}),
+					methods.filter((method) => method.kind === vscode.SymbolKind.Method),
 					activeEditor
 				);
 			}
