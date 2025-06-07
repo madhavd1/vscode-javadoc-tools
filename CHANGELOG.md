@@ -1,4 +1,10 @@
 # Change Log
+### V1.7.0
+- Fix for Multiple Issues reported for Javadoc Generation stopping after First Method. [Issue #23, #26 & #28]. Thanks @fynn-kropp for providing fix for the issue with asynchronous function inside the For-loop.
+- Fixed logic for Filtering Methods Objects eligible for Javadoc Creation.
+- Updated logic for Iterating methods in reverse order to eliminate unnecessary offset calculations and consequently fix placement of Javadoc comments in the code without any extra Whitespaces.
+- Refactor command for generating comments in workspace to use quick pick for user confirmation
+
 ### V1.6.0
 - Added Support for Multi Root Workspaces
 - Fix for [Issue #15] - Can't export: path separator issues on mac (probably also linux) 
