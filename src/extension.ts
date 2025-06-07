@@ -14,15 +14,21 @@ export function activate(context: ExtensionContext) {
     let disposable = commands.registerCommand('javadoc-tools.jdocGenerate', async () => {
         const activeEditor = window.activeTextEditor;
         JdocTools.createJdocCommentsCurrFile();
-
-        // vscode.window.showInformationMessage('Hello WorldForkers!');
     });
 
     let disposable1 = commands.registerCommand('javadoc-tools.generateCommentsForWorkspace', () => {
-        vscode.window.showInformationMessage(consts.RUN_CONFIRM, consts.YES, consts.NO).then((btn) => {
-            if (btn === consts.YES) {
+        // vscode.window.showInformationMessage('Hello WorldForkers!');
+        const items = [
+            { label: consts.YES, description: 'Proceed with generating Javadoc comments for the workspace' },
+            { label: consts.NO, description: 'Cancel' }
+        ];
+        vscode.window.showQuickPick(items, {
+            placeHolder: consts.RUN_CONFIRM,
+            canPickMany: false
+        }).then((selected) => {
+            if (selected && selected.label === consts.YES) {
                 JdocTools.createJdocCommentsForWorkspace();
-            } else if (btn === consts.NO) {
+            } else if (selected && selected.label === consts.NO) {
                 console.log('Javadoc Tools: User chose to cancel Workspace Javadoc creation');
             }
         });
@@ -73,7 +79,7 @@ export function activate(context: ExtensionContext) {
     let disposable3 = commands.registerCommand('javadoc-tools.exportJavadoc', () => {
         //get workspace src folder
         let srcFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.workspaceSourceFolder');
-        let folderList: Array<string> = new Array();
+        console.log('Source Folder: ' + srcFolder);
 
         let javaHome: string | undefined = vscode.workspace.getConfiguration().get('java.home');
         if (!javaHome) {
