@@ -89,8 +89,8 @@ export class JdocTools {
 	// });
 
 	static async processMethods(methods: Array<vscode.DocumentSymbol | undefined>, activeEditor: vscode.TextEditor) {
-		let jdOffset = 0;
-		for (const methodObj of methods) {
+		for (let i = methods.length - 1; i >= 0; i--) {
+			let methodObj = methods[i];
 			if (methodObj) {
 				// let methodRange:vscode.Range= ;
 				let methodDefnText = '';
@@ -114,7 +114,7 @@ export class JdocTools {
 					methodDefnText = this.removeOthers(methodDefnText);
 					let tagArray = new Map<string, string>();
 					let javadocString: string = ''; //The final Javadoc string that will be inserted
-					let targetPosition: vscode.Position = methodObj.range.start.with(methodObj.range.start.line + jdOffset, methodObj.range.start.character);
+					let targetPosition: vscode.Position = methodObj.range.start.with(methodObj.range.start.line, methodObj.range.start.character);
 
 					//Start Processing params
 					let paramStartIndex = methodDefnText.indexOf('(');
@@ -142,26 +142,22 @@ export class JdocTools {
 						// console.log(paramList);
 						paramList.forEach((param) => {
 							javadocString += ASTERISK + JAVADOC_PARAMS + param;
-							jdOffset += 1;
 						});
 					}
 					//Format the Return String
 					let returnType: string = methodObj.detail.substring(methodObj.detail.indexOf(':') + 1, methodObj.detail.length).trim(); //detail is in fact the return type
 					if (returnType !== 'void') {
 						javadocString += ASTERISK + JAVADOC_RETURN + returnType;
-						jdOffset += 1;
 					}
 					//Format the Throws Strings
 					if (throwsList) {
 						throwsList.forEach((ex) => {
 							javadocString += ASTERISK + JAVADOC_THROWS + ex;
-							jdOffset += 1;
 						});
 					}
 					if (javadocString !== '') {
 						let finalJDocString: vscode.SnippetString = new vscode.SnippetString(JAVADOC_START + javadocString + JAVADOC_END + NEW_LINE);
 						await activeEditor.insertSnippet(finalJDocString, targetPosition);
-						jdOffset += 2;
 					}
 				}
 			}
