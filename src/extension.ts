@@ -8,6 +8,20 @@ import * as fsUtils from './FSUtils';
 const packageJSON = require('../package.json');
 const path = require('path')
 
+function ensureJavaHome(): string | undefined {
+    let javaHome: string | undefined = vscode.workspace.getConfiguration().get('java.home');
+    if (!javaHome) {
+        javaHome = process.env.JAVA_HOME;
+    }
+    if (!javaHome) {
+        vscode.window.showErrorMessage(
+            'Javadoc Tools Error: Neither java.home (VS Code setting) nor JAVA_HOME (environment variable) is set. Please configure one of them to use Javadoc features.'
+        );
+        throw new Error('Javadoc Tools: No Java home found.');
+    }
+    return javaHome;
+}
+
 export function activate(context: ExtensionContext) {
     console.log('Javadoc Tools is now active');
     showUpgradeNotification(context);
@@ -77,19 +91,15 @@ export function activate(context: ExtensionContext) {
     );
 
     let disposable3 = commands.registerCommand('javadoc-tools.exportJavadoc', () => {
+        let javaHome: string | undefined;
+        try {
+            javaHome = ensureJavaHome();
+        } catch (e) {
+            return;
+        }
         //get workspace src folder
         let srcFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.workspaceSourceFolder');
         console.log('Source Folder: ' + srcFolder);
-
-        let javaHome: string | undefined = vscode.workspace.getConfiguration().get('java.home');
-        if (!javaHome) {
-            javaHome = process.env.JAVA_HOME;
-        }
-        if (javaHome) {
-            if (javaHome.endsWith(path.sep)) {
-                javaHome.replace(path.sep + '$', '');
-            }
-        }
 
         let runMode = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.runMode');
         let usingPwsh: string | undefined = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.isUsingPwsh');
