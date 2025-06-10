@@ -16,19 +16,7 @@ export class JdocTools {
 
 	constructor() { }
 
-	static ensureJavaHome() {
-		const javaHomeSetting = vscode.workspace.getConfiguration('java').get('home');
-		const javaHomeEnv = process.env.JAVA_HOME;
-		if (!javaHomeSetting && !javaHomeEnv) {
-			vscode.window.showErrorMessage(
-				'Javadoc Tools Error: Neither java.home (VS Code setting) nor JAVA_HOME (environment variable) is set. Please configure one of them to use Javadoc features.'
-			);
-			throw new Error('Javadoc Tools: No Java home found.');
-		}
-	}
-
 	static async createJdocCommentsCurrFile() {
-		this.ensureJavaHome();
 		let activeEditor = activeWindow.activeTextEditor;
 		if (activeEditor) {
 			console.log('Processing File: ' + activeEditor.document.fileName);
@@ -49,7 +37,6 @@ export class JdocTools {
 	}
 
 	static async createJdocCommentsForWorkspace() {
-		this.ensureJavaHome();
 		vscode.window.withProgress(
 			{
 				location: vscode.ProgressLocation.Notification,
