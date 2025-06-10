@@ -152,7 +152,7 @@ export function activate(context: ExtensionContext) {
             let fldrs: string[][] = [];
             if (folder) {
                 fldrs = fsUtils.getChildDir(folder);
-                fldrs = fldrs.filter((fldr) => fsUtils.isDirectory(fldr[1]));
+                fldrs = fldrs.filter((fldr) => fsUtils.isDirectory(fldr[1]) && !fldr[0].startsWith('.'));
                 const folderItems = fldrs.map((fldr) => ({ label: fldr[0] }));
                 vscode.window
                     .showQuickPick(folderItems, {
