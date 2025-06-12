@@ -1,15 +1,18 @@
 import * as vscode from 'vscode';
 import { ExtensionContext, commands, window } from 'vscode';
 import { JdocTools } from './jdocTools';
-import * as open from 'open';
+import open from 'open';
 import * as consts from './Constants';
 import * as fsUtils from './FSUtils';
+import { showJavadocPreview, initializeJavadocPreviewHighlighter } from './javadocPreview';
 
 const packageJSON = require('../package.json');
 const path = require('path')
 
 export function activate(context: ExtensionContext) {
     console.log('Javadoc Tools is now active');
+    // Initialize the global highlighter for javadoc preview
+    initializeJavadocPreviewHighlighter(context);
     showUpgradeNotification(context);
     let disposable = commands.registerCommand('javadoc-tools.jdocGenerate', async () => {
         const activeEditor = window.activeTextEditor;
@@ -191,7 +194,8 @@ export function activate(context: ExtensionContext) {
 
     });
 
-    context.subscriptions.push(disposable, disposable1, disposable2, disposable3);
+    let disposable4 = commands.registerCommand('javadoc-tools.showJavadocPreview', showJavadocPreview);
+    context.subscriptions.push(disposable, disposable1, disposable2, disposable3, disposable4);
 }
 
 export function deactivate() { }

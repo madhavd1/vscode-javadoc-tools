@@ -117,6 +117,17 @@
                     "description": "Set this property to true if you are using Powershell as your default Terminal"
                 }
             }
+        },
+        "views": {
+            "explorer": [
+                {
+                    "id": "javadoc-tools.javadocPreviewView",
+                    "name": "Javadoc Preview",
+                    "icon": "img/logo.png",
+                    "type": "webview",
+                    "contextualTitle": "Javadoc Preview"
+                }
+            ]
         }
     },
     "scripts": {
@@ -135,7 +146,7 @@
         "@vscode/test-electron": "^2.4.1",
         "eslint": "^9.28.0",
         "glob": "^7.2.0",
-        "typescript": "^5.5.4"
+        "typescript": "^5.8.3"
     },
     "extensionDependencies": [
         "redhat.java"
@@ -145,6 +156,8 @@
         "javadoc"
     ],
     "dependencies": {
-        "open": "^8.4.0"
+        "marked": "^15.0.12",
+        "open": "^8.4.0",
+        "shiki": "^3.6.0"
     }
 }
