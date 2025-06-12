@@ -9,7 +9,6 @@ let lastDisposable: vscode.Disposable | undefined;
 let highlighter: shiki.Highlighter | undefined;
 
 export async function initializeJavadocPreviewHighlighter(context: vscode.ExtensionContext) {
-    // No config check needed, always register the provider
 
     // Get the current VS Code theme name
     const themeName = getCurrentThemeName();
@@ -90,7 +89,7 @@ function getCurrentThemeName(): string {
     return themeName || 'light-plus';
 }
 
-function getShikiTheme(): string {
+function getTheme(): string {
     // Try to match the current VS Code theme name to a loaded theme
     const themeName = getCurrentThemeName();
     if (highlighter && highlighter.getTheme(themeName)) {
@@ -100,6 +99,10 @@ function getShikiTheme(): string {
     const colorTheme = vscode.window.activeColorTheme;
     if (colorTheme.kind === vscode.ColorThemeKind.Dark) {
         return 'dark-plus';
+    } else if (colorTheme.kind === vscode.ColorThemeKind.Light) {
+        return 'light-plus';
+    } else if (colorTheme.kind === vscode.ColorThemeKind.HighContrastLight) {
+        return 'github-light';
     } else if (colorTheme.kind === vscode.ColorThemeKind.HighContrast) {
         return 'github-dark';
     } else {
@@ -112,7 +115,7 @@ const renderer = new marked.Renderer();
 renderer.code = function ({ text, lang }: { text: string; lang?: string }) {
     try {
         if (highlighter) {
-            return highlighter.codeToHtml(text, { lang: lang || 'java', theme: getShikiTheme() });
+            return highlighter.codeToHtml(text, { lang: lang || 'java', theme: getTheme() });
         }
     } catch { }
     // fallback
@@ -173,9 +176,9 @@ async function getCurrentJavadocPreviewHtml(): Promise<string> {
             } else if (typeof content === 'object' && 'value' in content) {
                 if ('language' in content && content.language) {
                     if (highlighter) {
-                        hoverHtml += highlighter.codeToHtml(content.value, { lang: content.language, theme: getShikiTheme() });
+                        hoverHtml += highlighter.codeToHtml(content.value, { lang: content.language, theme: getTheme() });
                     } else {
-                        hoverHtml += await shiki.codeToHtml(content.value, { lang: content.language, theme: getShikiTheme() });
+                        hoverHtml += await shiki.codeToHtml(content.value, { lang: content.language, theme: getTheme() });
                     }
                 } else {
                     hoverHtml += marked.parse(content.value, { renderer });
