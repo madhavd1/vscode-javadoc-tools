@@ -97,6 +97,9 @@ After each update, the changelog will open automatically in a dedicated tab. You
 ---
 
 ## 📝 Most Recent Release Notes
+### V1.8.1
+- Fixed README.md
+
 ### V1.8.0
 - New Javadoc Preview webview added to the Explorer sidebar. The preview panel has syntax highlighting and live Markdown rendering, updating as the cursor moves. The preview always matches the current VS Code color theme, including dynamic theme switching. [Issue #31](https://github.com/madhavd1/vscode-javadoc-tools/issues/31).
 - [Issue #24](https://github.com/madhavd1/vscode-javadoc-tools/issues/24) Added explicit check to ensure either "java.home" setting or "JAVA_HOME" env variable is present before preparting the export command.
