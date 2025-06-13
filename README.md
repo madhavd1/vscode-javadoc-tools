@@ -2,6 +2,16 @@
 
 This extension allows user to generate javadoc comments for all methods within a class.
 Below commands are available for use - 
+
+## New Features (v1.8.0)
+* **Javadoc Preview** - New Javadoc Preview webview added to the Explorer sidebar (can be moved to panel section too). The preview panel has syntax highlighting and live Markdown rendering, updating as the cursor moves. The preview always matches the current VS Code color theme, including dynamic theme switching.
+
+![Explorer Preview](/img/explorerPreview.png)
+
+![Panel Javadoc Preview](/img/panelJavadocPreview.png)
+
+
+## Features
 * **Javadoc Tools: Export Javadoc** - This command allows you to export your Javadoc. The command should be executed in a Workspace(Multi-root workspaces supported as of version 1.6.0)
   > Below properties can be set to customize this command
   > * **javadoc-tools.generateJavadoc.workspaceSourceFolder** - Sets the default source folder which is read when Generating the Javadoc. Default value is the \"src\" folder in Workspace Root
@@ -15,8 +25,6 @@ Below commands are available for use -
     The files will be opened in the editor and the javadoc comments will be added. This command will not autosave the modified Files.
     >Warning: Running this command on a large workspace may cause performance degradation AND will require you to wait longer while it processes the files(which is worse)
 * **Generate Javadoc Comments** - New option added to the context menu for Java Clases. Generates Javadoc Comments for the selected class.
-
-## Features
 
 ### Export Javadoc for your workspace
 ![Export javadoc](/img/export_javadoc.jpg)
@@ -36,11 +44,9 @@ For any problems with the extension please raise an issue on the github page - [
 * [Language Support for Java(TM) by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.java)
 
 ## Most Recent Release Notes
-### V1.5.1
-- **Javadoc Tools: Generate Comments for Select methods** command can now be triggered from the right click Context Menu within the file.
-### V1.5.0
-- Added a new Property `javadoc-tools.generateJavadoc.isUsingPwsh` which can be set to true to support Powershell javadoc export. Thanks to @JoshJamesLS for pointing out the need for this.
-- Fixes [Issue #1](https://github.com/madhavd1/vscode-javadoc-tools/issues/1) - Getters, Setters, Equals, Hashcode etc. methods added by Lombok are ignored during Javadoc Comment creation.
-- Improved handling for `Javadoc Tools: Generate Javadoc Comments for Workspace` command. It will now show proper warnings and a Progress Bar. The command can also be cancelled now.
+### V1.8.0
+- New Javadoc Preview webview added to the Explorer sidebar. The preview panel has syntax highlighting and live Markdown rendering, updating as the cursor moves. The preview always matches the current VS Code color theme, including dynamic theme switching. [Issue #31](https://github.com/madhavd1/vscode-javadoc-tools/issues/31).
+- [Issue #24](https://github.com/madhavd1/vscode-javadoc-tools/issues/24) Added explicit check to ensure either "java.home" setting or "JAVA_HOME" env variable is present before preparting the export command.
+- [Issue #25](https://github.com/madhavd1/vscode-javadoc-tools/issues/25) Added a new dialog box will allows you to choose which submodules to include in export. Also ignores hidden folders now.
 
 >For complete version history, please see the [changelog](https://marketplace.visualstudio.com/items/madhavd1.javadoc-tools/changelog).
