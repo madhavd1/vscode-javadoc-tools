@@ -10,7 +10,7 @@ export const CHNGLOG_REMIND = 'changelogReminder';
 
 //Long Running process Messages
 export const RUN_CONFIRM =
-	'This process may take a long time and be taxing for your system depending on the size of your workspace. Would you still like to Proceed with this?';
+	'Are you sure you want to generate Javadoc comments for the workspace?';
 
 //general
 export const YES = 'Yes';

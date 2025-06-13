@@ -1,15 +1,18 @@
 import * as vscode from 'vscode';
 import { ExtensionContext, commands, window } from 'vscode';
 import { JdocTools } from './jdocTools';
-import * as open from 'open';
+import open from 'open';
 import * as consts from './Constants';
 import * as fsUtils from './FSUtils';
+import { showJavadocPreview, initializeJavadocPreviewHighlighter } from './javadocPreview';
 
 const packageJSON = require('../package.json');
 const path = require('path')
 
 export function activate(context: ExtensionContext) {
     console.log('Javadoc Tools is now active');
+    // Initialize the global highlighter for javadoc preview
+    initializeJavadocPreviewHighlighter(context);
     showUpgradeNotification(context);
     let disposable = commands.registerCommand('javadoc-tools.jdocGenerate', async () => {
         const activeEditor = window.activeTextEditor;
@@ -77,19 +80,10 @@ export function activate(context: ExtensionContext) {
     );
 
     let disposable3 = commands.registerCommand('javadoc-tools.exportJavadoc', () => {
+        let javaHome: string = ensureJavaHome();
         //get workspace src folder
         let srcFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.workspaceSourceFolder');
         console.log('Source Folder: ' + srcFolder);
-
-        let javaHome: string | undefined = vscode.workspace.getConfiguration().get('java.home');
-        if (!javaHome) {
-            javaHome = process.env.JAVA_HOME;
-        }
-        if (javaHome) {
-            if (javaHome.endsWith(path.sep)) {
-                javaHome.replace(path.sep + '$', '');
-            }
-        }
 
         let runMode = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.runMode');
         let usingPwsh: string | undefined = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.isUsingPwsh');
@@ -100,7 +94,6 @@ export function activate(context: ExtensionContext) {
                 let items = workspaceFolders.map((item) => ({
                     label: item.name
                 }));
-                // const quickPOptions = new vscode.qui
                 vscode.window
                     .showQuickPick(items, {
                         canPickMany: true,
@@ -113,83 +106,96 @@ export function activate(context: ExtensionContext) {
                                 let folder = root.uri.path + path.sep + 'src';
                                 let fldrs: string[][] = [];
                                 if (folder) {
-
                                     try {
                                         fldrs = fsUtils.getChildDir(folder);
                                         fldrs = fldrs.filter((fldr) => fsUtils.isDirectory(fldr[1]));
                                         console.log(fldrs);
+
+                                        // Show a list of folders to the user for selection
+                                        const folderItems = fldrs.map((fldr) => ({ label: fldr[0] }));
+                                        vscode.window
+                                            .showQuickPick(folderItems, {
+                                                canPickMany: true,
+                                                placeHolder: 'Select folders to include in Javadoc export'
+                                            })
+                                            .then((selectedFolders) => {
+                                                if (selectedFolders) {
+                                                    const selectedFolderNames = selectedFolders.map((folder) => folder.label);
+                                                    let trgFolder = root.uri.fsPath + path.sep + 'javadoc';
+                                                    let cmd =
+                                                        '"' +
+                                                        javaHome +
+                                                        path.sep + 'bin' + path.sep + 'javadoc" ' +
+                                                        runMode +
+                                                        ' -d "' +
+                                                        trgFolder +
+                                                        '" -sourcepath "' +
+                                                        folder +
+                                                        '" -subpackages ' +
+                                                        selectedFolderNames.join(' ');
+                                                    if (usingPwsh !== 'false') {
+                                                        cmd = '&' + cmd;
+                                                    }
+                                                    let terminal = window.createTerminal('Export Javadoc - ' + element.label);
+                                                    terminal.show();
+                                                    terminal.sendText(cmd);
+                                                }
+                                            });
                                     } catch (error) {
                                         vscode.window.showErrorMessage('Invalid Source Folder: ' + folder);
                                         return;
                                     }
-
-                                    // fldrs = fldrs.map(fldr => fldr[0]);
-
                                 }
-                                let trgFolder = root.uri.fsPath + path.sep + 'javadoc';
-                                let cmd =
-                                    '"' +
-                                    javaHome +
-                                    path.sep + 'bin' + path.sep + 'javadoc" ' +
-                                    runMode +
-                                    ' -d "' +
-                                    trgFolder +
-                                    '" -sourcepath "' +
-                                    folder +
-                                    '" -subpackages ' +
-                                    fldrs.map((fldr) => fldr[0]).join(' ');
-                                if (usingPwsh !== 'false') {
-                                    cmd = '&' + cmd;
-                                }
-                                let terminal = window.createTerminal('Export Javadoc - ' + element.label);
-                                terminal.show();
-                                terminal.sendText(cmd);
                             }
                         }
-
                     });
             }
         } else {
             let folder = vscode.workspace.rootPath + path.sep + srcFolder;
-            let trgFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.targetFolder');
-            if (!trgFolder) {
-                trgFolder = vscode.workspace.rootPath + path.sep + 'javadoc';
-            }
-            console.log(trgFolder);
-
-
-
             let fldrs: string[][] = [];
             if (folder) {
                 fldrs = fsUtils.getChildDir(folder);
-                fldrs = fldrs.filter((fldr) => fsUtils.isDirectory(fldr[1]));
-                // fldrs = fldrs.map(fldr => fldr[0]);
-                console.log(fldrs);
+                fldrs = fldrs.filter((fldr) => fsUtils.isDirectory(fldr[1]) && !fldr[0].startsWith('.'));
+                const folderItems = fldrs.map((fldr) => ({ label: fldr[0] }));
+                vscode.window
+                    .showQuickPick(folderItems, {
+                        canPickMany: true,
+                        placeHolder: 'Select folders to include in Javadoc export'
+                    })
+                    .then((selectedFolders) => {
+                        if (selectedFolders) {
+                            const selectedFolderNames = selectedFolders.map((folder) => folder.label);
+                            let trgFolder = vscode.workspace.getConfiguration().get('javadoc-tools.generateJavadoc.targetFolder');
+                            if (!trgFolder) {
+                                trgFolder = vscode.workspace.rootPath + path.sep + 'javadoc';
+                            }
+                            let cmd =
+                                '"' +
+                                javaHome +
+                                path.sep + 'bin' + path.sep + 'javadoc" ' +
+                                runMode +
+                                ' -d "' +
+                                trgFolder +
+                                '" -sourcepath "' +
+                                srcFolder +
+                                '" -subpackages ' +
+                                selectedFolderNames.join(' ');
+                            if (usingPwsh !== 'false') {
+                                cmd = '&' + cmd;
+                            }
+                            let terminal = window.createTerminal('Export Javadoc');
+                            terminal.show();
+                            terminal.sendText(cmd);
+                        }
+                    });
             }
-            let cmd =
-                '"' +
-                javaHome +
-                path.sep + 'bin' + path.sep + 'javadoc" ' +
-                runMode +
-                ' -d "' +
-                trgFolder +
-                '" -sourcepath "' +
-                srcFolder +
-                '" -subpackages ' +
-                fldrs.map((fldr) => fldr[0]).join(' ');
-            if (usingPwsh !== 'false') {
-                cmd = '&' + cmd;
-            }
-            let terminal = window.createTerminal('Export Javadoc');
-            terminal.show();
-            terminal.sendText(cmd);
-
         }
 
 
     });
 
-    context.subscriptions.push(disposable, disposable1, disposable2, disposable3);
+    let disposable4 = commands.registerCommand('javadoc-tools.showJavadocPreview', showJavadocPreview);
+    context.subscriptions.push(disposable, disposable1, disposable2, disposable3, disposable4);
 }
 
 export function deactivate() { }
@@ -198,13 +204,36 @@ export function showUpgradeNotification(context: ExtensionContext) {
     let instldVersion = context.globalState.get(consts.INSTL_VER);
     console.log(instldVersion);
     if (packageJSON.version !== instldVersion) {
+        // Always open the changelog in VS Code when there is an upgrade
         vscode.window.showInformationMessage(consts.CHNGLOG_MSG, consts.BTN_SHOW_CHNGLOG, consts.BTN_DONT_SHOW, consts.BTN_REMIND_LATER).then((btn) => {
             if (btn === consts.BTN_SHOW_CHNGLOG) {
-                open(consts.CHNGLOG_URI);
+                vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(path.join(context.extensionPath, 'CHANGELOG.md')), {
+                    viewColumn: vscode.ViewColumn.Active,
+                    preserveFocus: false,
+                    previewTitle: 'Javadoc Tools: Changelog'
+                });
                 context.globalState.update(consts.INSTL_VER, packageJSON.version);
             } else if (btn === consts.BTN_DONT_SHOW) {
                 context.globalState.update(consts.INSTL_VER, packageJSON.version);
             }
         });
     }
+}
+
+function ensureJavaHome(): string {
+    let javaHome: string | undefined = vscode.workspace.getConfiguration('java').get('home');
+    if (!javaHome) {
+        javaHome = process.env.JAVA_HOME;
+    }
+    if (!javaHome) {
+        vscode.window.showErrorMessage(
+            'Javadoc Tools Error: Neither java.home (VS Code setting) nor JAVA_HOME (environment variable) is set. Please configure one of them to use Javadoc export features.'
+        );
+        throw new Error('Javadoc Tools: No Java home found.');
+    }
+    // Remove trailing path separator if present
+    if (javaHome.endsWith(path.sep)) {
+        javaHome = javaHome.slice(0, -1);
+    }
+    return javaHome;
 }
