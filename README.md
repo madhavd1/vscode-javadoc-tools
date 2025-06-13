@@ -4,7 +4,7 @@ A powerful extension to generate, preview, and export Javadoc comments for your 
 
 ---
 
-## ✨ New & Improved in v1.8.0 (Unreleased)
+## ✨ New & Improved in v1.8.0
 
 - **Javadoc Preview Panel**: Live Markdown/HTML preview of Javadoc comments in the Explorer sidebar, with Shiki-powered syntax highlighting and dynamic theme support.
 
