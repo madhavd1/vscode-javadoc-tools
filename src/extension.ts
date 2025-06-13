@@ -204,9 +204,14 @@ export function showUpgradeNotification(context: ExtensionContext) {
     let instldVersion = context.globalState.get(consts.INSTL_VER);
     console.log(instldVersion);
     if (packageJSON.version !== instldVersion) {
+        // Always open the changelog in VS Code when there is an upgrade
         vscode.window.showInformationMessage(consts.CHNGLOG_MSG, consts.BTN_SHOW_CHNGLOG, consts.BTN_DONT_SHOW, consts.BTN_REMIND_LATER).then((btn) => {
             if (btn === consts.BTN_SHOW_CHNGLOG) {
-                open(consts.CHNGLOG_URI);
+                vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.file(path.join(context.extensionPath, 'CHANGELOG.md')), {
+                    viewColumn: vscode.ViewColumn.Active,
+                    preserveFocus: false,
+                    previewTitle: 'Javadoc Tools: Changelog'
+                });
                 context.globalState.update(consts.INSTL_VER, packageJSON.version);
             } else if (btn === consts.BTN_DONT_SHOW) {
                 context.globalState.update(consts.INSTL_VER, packageJSON.version);
